@@ -34,9 +34,12 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
+
+        # reset radians 
         if angleOfPlayer < 0:
             angleOfPlayer += (math.pi * 2)
-        
+
+        # adjust the position/turn the player
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
                 angleOfPlayer += (math.pi / 64)
@@ -48,7 +51,8 @@ def main():
             elif event.key == K_DOWN:
                 startY += 0.01 * math.sin(angleOfPlayer) 
                 startX += 0.01 * math.cos(angleOfPlayer)
-                
+
+        # reset radians
         if angleOfPlayer < 0:
             angleOfPlayer += (math.pi * 2)
        
@@ -62,6 +66,8 @@ def main():
             isHit = False 
             rayPosX = startX 
             rayPosY = startY
+
+            # calculate if the view hits an object
             while (distance <= 5 and isHit != True):
                 if(rayPosX > 4 or rayPosY > 4):
                     isHit = False # may be redunant
@@ -74,22 +80,15 @@ def main():
                     distance = distance + step
             fixedDistance = distance * math.cos(angleOfRay - angleOfPlayer)
 
+            # draw a ray if an object is found, according to a formula
             if (isHit == True):
                 height = 100 / fixedDistance
                 startPos = 320 - height/2
                 endPos = 320 + height/2
                 pygame.draw.line(screen, (255, 0, 0), (0+(x*40), startPos), (0+(x*40), endPos), 40)
 
-
-
-
                    
         pygame.display.update()
         
-        
-           
-            
-
-      
 
 if __name__ == '__main__': main()
